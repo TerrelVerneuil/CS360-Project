@@ -1,0 +1,89 @@
+body {
+  font-family: 'MuseoModerno';
+  margin: 0;
+  padding: 0;
+}
+
+header {
+ 
+  text-align: center;
+  padding: 20px 0;
+  color: #AC4570;;
+  font-size: 18px;
+}
+
+.intro {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  background-color: #F3C6BE;
+}
+
+.intro h2 {
+  font-size: 24px;
+  width: 30%;
+}
+
+.intro img {
+  
+  width: 40%;
+}
+
+.intro button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #AC4570;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.categories, .sellers {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+}
+
+
+
+.category, .seller {
+  width: 20%;
+  text-align: center;
+  margin: 20px;
+  font-size: 18px;
+}
+
+.text-under-box {
+  margin-top: 5px;  
+  text-align: center;  
+}
+.categories {
+  border-bottom: 2px solid #AC4570; 
+}
+
+.category {
+  height: 100px;
+  width: 100px;
+  line-height: 120px; 
+  border: 2px solid #AC4570;
+  
+}
+
+.seller {
+  height: 80px;
+  line-height: 80px; 
+  
+  border: 2px solid #AC4570;
+ 
+}
+
+footer {
+  position: fixed;
+  text-align: center;
+  height: 50%;
+  width: 100%;
+  font-size: 14px;
+  background: #F3C6BE;
+  flex-direction: column;
+}
