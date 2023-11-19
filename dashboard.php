@@ -1,11 +1,57 @@
+<?php
+    session_start();
+    include("bootstrap.php");
+    include("util.php");
+    
+    
+    
+    
+    
+    	    //logout
+
+	if (isset($_GET['op']) && $_GET['op'] == 'login' && isset($_POST['uid'])) {
+    		$uid = $_POST['uid'];
+		$_SESSION['uid'] = $uid;
+	} elseif (isset($_GET['op']) && $_GET['op']  == 'showLoginForm'){
+		handleLoginForm($db);
+		exit;
+	}
+
+$uid = $_SESSION['uid'];
+$uname = getName($db, $uid);
+
+?>
+<?php
 
 
+?>
+<?php
+    
 
+	//show dashboard content
 
+    //include("account_manage")
+    //
+    //the util file isnt implemented yet so this
+    //so functionality will be missing
+    //add a way to login
+    //add a way to check purchase history
+    //make filter work 
+    //purchase
+    //review
+    //account mangagement(this is in conjunction with the login)
+    //currently it should just redirect to login page, then
+    //display everything that should be in account management
+    //or just redirect to dashboard
+    //so clicking username should help manage account
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<?php
+	
+?>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="dashboard.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -15,7 +61,9 @@
     <title>Dashboard</title>
 </head>
 <body>
-	    <div class="main-content">
+	<?php 
+	//if (isset($_SESSION['user_id'])): ?>
+    <div class="main-content">
     <h1>Picked for you</h1>
     
     <div class="item">
@@ -42,7 +90,12 @@
 </div>
     <div class="sidenav">
 	<h2>MARKETPLACE</h2>
-	<a id="username" href="?op=showLoginForm">👤login</a>
+<?php
+	//this section icon should be pressed and prompt the user to a login page
+		//following that it should log the user in when user name and pass word is specified. 
+		//more functionality added later.
+?>
+	<a id="username" href="<?php echo (isset($_SESSION['uid']) ? '#profile' : '?op=showLoginForm'); ?>">👤<?php if(isset($_SESSION['uid'])){echo "Welcome " . htmlspecialchars($uname);}else{echo "login";}?></a>
     
         <div class="boxcontainer">
             <div class="box"></div>
@@ -71,3 +124,6 @@
     
 </body>
 </html>
+<?php
+    
+    ?>
