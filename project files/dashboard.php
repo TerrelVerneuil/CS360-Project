@@ -85,8 +85,26 @@ if (isset($_GET['op']) && $_GET['op']  == 'showSignUpForm'){
     //or just redirect to dashboard
     //so clicking username should help manage account
 ?>
-	<?php 
-	//if (isset($_SESSION['user_id'])): ?>
+
+<?php 
+	//if (isset($_SESSION['user_id'])): 
+
+
+if($op == "searchItems"){
+    showFilteredItems($db, $_POST);
+}
+else if($op == "sell"){
+    if(!isset($_SESSION['uid'])){
+        handleLoginForm($db);
+        exit;
+    }
+    else{
+        showSellForm($db);
+    }
+}
+else{
+?>
+
     <div class="main-content">
     <h1>Picked for you</h1>
     
@@ -112,8 +130,12 @@ if (isset($_GET['op']) && $_GET['op']  == 'showSignUpForm'){
     </div>
     
 </div>
-    <div class="sidenav">
-	<h2>MARKETPLACE</h2>
+<?php    
+}
+?>
+<DIV class="sidenav">
+<H2>MARKETPLACE</H2>
+
 <?php
 	//this section icon should be pressed and prompt the user to a login page
 		//following that it should log the user in when user name and pass word is specified. 
@@ -132,35 +154,55 @@ else {
 ?>
 
 	
-        <div class="boxcontainer">
-            <div class="box"></div>
+<DIV class="boxcontainer">
+    <DIV class="box"></DIV>
             
-            <div class="box"></div>
-            <div class="text-under-box"></div>
-        </div>
-        <div class="boxcontainer">
-            <div class="box"></div>
-            <div class="text-under-box"></div>
-            <div class="box"></div>
-            <div class="text-under-box"></div>
-        </div>
-            
-        
-        <!-- search bar implement -->
-        <!-- add an inline bar over here -->
-        <div class="line-divider"></div>
-        <input id="searchbar" type="text" placeholder="Search...">    <!--will clean this up a bit later -->
-        <a href="?op=filter">filter</div>
+    <DIV class="box"><A href="?op=sell">SELL</A></DIV>
+    <DIV class="text-under-box"></DIV>
+</DIV>
 
+<DIV class="boxcontainer">
+    <DIV class="box"></DIV>
+    <DIV class="text-under-box"></DIV>
+    <DIV class="box"></DIV>
+    <DIV class="text-under-box"></DIV>
+</DIV>
+            
         
-        
-        <!-- implement filter icon -->
-        
-        <!-- implement logout icon -->
-      </div>
+    <!-- search bar implement -->
+    <!-- add an inline bar over here -->
+<DIV class="line-divider"></DIV>
+<FORM name='filterResults' method='POST' action='?op=searchItems'>
+<INPUT id="searchbar" name = "searchbar" type="text" placeholder="Search...">    <!--will clean this up a bit later -->
+<A href=<?php if($op != 'filter'){echo("?op=filter");} else{echo("dashboard.php");} ?>>filter</A>
     
-</body>
-</html>
 <?php
 
-    ?>
+if($op == 'filter'){
+    echo("<TD>\n");
+    echo("<input type='checkbox' name='cb1' value='Electronics'>Electronics</INPUT></BR>");
+    echo("<input type='checkbox' name='cb2' value='Home Goods'>Home Goods</INPUT></BR>");
+    echo("<input type='checkbox' name='cb3' value='Kitchen Ware'>Kitchen Ware</INPUT></BR>");
+    echo("<input type='checkbox' name='cb4' value='Toys & Games'>Toys & Games</INPUT></BR>");
+    echo("</TD>\n");
+}
+
+?>
+
+<INPUT type='submit' value='Search' />
+</FORM>
+
+</DIV> <!-- closes side bar-->
+
+
+
+        
+        
+<!-- implement filter icon -->
+        
+<!-- implement logout icon -->
+
+</DIV> 
+    
+</BODY>
+</HTML>
