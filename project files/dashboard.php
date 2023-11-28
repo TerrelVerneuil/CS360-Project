@@ -102,6 +102,15 @@ else if($op == "sell"){
         showSellForm($db);
     }
 }
+else if($op == "listedItem"){
+    listItem($_POST, $db, $uid);
+}
+else if($op == "displayItem"){
+    displayItem($db, $_GET['IID']);
+}
+else if($op == "addedToCart"){
+
+}
 else{
 ?>
 
@@ -155,7 +164,7 @@ else {
 
 	
 <DIV class="boxcontainer">
-    <DIV class="box"></DIV>
+    <DIV class="box"><A href="?op=cart">CART</A></DIV>
             
     <DIV class="box"><A href="?op=sell">SELL</A></DIV>
     <DIV class="text-under-box"></DIV>
