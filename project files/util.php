@@ -126,7 +126,7 @@ function showFilteredItems($db, $filters){
 
   if($condition != "WHERE "){
     $condition = substr_replace($condition, "", -4) . ";";
-    $query = "SELECT description, price FROM (" . $query . ") AS searched " . $condition;
+    $query = "SELECT description, price, name, itemID FROM (" . $query . ") AS searched " . $condition;
   }
 
   $res = $db->query($query);
@@ -136,10 +136,12 @@ function showFilteredItems($db, $filters){
   if($res != FALSE){
     while($row = $res->fetch()){
       echo("<DIV class='item'>");
-      echo("<DIV class='item-box'>Null</DIV>");
-      echo("<P>".$row['description']."</P>");
-      echo("<BR>");                               //figure out how to create a new line.
-      echo("<P>Price:".$row['price']."</P>");
+        echo("<DIV class='item-box'>Null</DIV>");
+        echo("<DIV class='item-stack'>");
+          echo("<A href=?op=displayItem&IID=".$row['itemID'].">".$row['name']."</A>");
+          echo("<P>".$row['description']."</P>");
+          echo("<P>Price: $".$row['price']."</P>");
+        echo("</DIV>");
       echo("</DIV>");
     }
   }
@@ -149,9 +151,52 @@ function showFilteredItems($db, $filters){
 
 }
 
+function listItem($itemInfo, $db, $uid){
 
+  $name = $itemInfo['name'];
+  $price = $itemInfo['price'];
+  $desc = $itemInfo['desc'];
+  $category = $itemInfo['category'];
 
+  $res = $db->query("INSERT INTO item(sid, name, price, description, itemCat) VALUES ($uid, '$name', $price, '$desc', '$category')");
+  
+  if($res != FALSE){
+  ?>
+    <DIV class='main-content'>
+    <P>Your item has been successfully listed!</P>
+    <FORM name='returnMain' action='?'>
+    <INPUT type='submit' value='Return to Main Page' />
+    </FORM>
+    </DIV>
+  <?php
+  }
+  else{
+    echo("A problem has occurred");
+  }
 
+}
+
+function displayItem($db, $iid){
+
+  $res = $db->query("SELECT * FROM item WHERE itemID = $iid");
+
+  if($res != FALSE){
+    $item = $res->fetch();
+
+    $res2 = $db->query("SELECT name FROM shop_user WHERE userID =".$item['sid']);
+    $seller = $res2->fetch();
+    echo("<DIV class='main-content'><H1>".$item['name']."</H1>");
+    echo("<P>Item Description: ".$item['description']."</P>");
+    echo("<P>Price: $".$item['price']."</P>");
+    echo("<P>Seller Name: ".$seller['name']."</P>");
+
+    echo("<FORM name='addToCart' action='?op=addedToCart&IID=".$iid."'>");
+    echo("<INPUT type='submit' value='Add to cart' />");
+    echo("</FORM>");
+
+  }
+
+}
 
 
 
