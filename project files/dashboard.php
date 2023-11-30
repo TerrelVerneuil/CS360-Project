@@ -27,6 +27,7 @@ if (isset($_GET['op'])) {
     if ($op == 'login') {
         
         $_SESSION['uid'] = $_POST['uid'];
+        $op = $_POST['dest'];
     }
     else if ($op == 'logout') {
         unset($_SESSION['uid']);
@@ -54,7 +55,7 @@ $uid = $_SESSION['uid'];
 $uname = getName($db, $uid);
 
 if (isset($_GET['op']) && $_GET['op']  == 'showLoginForm'){
-    handleLoginForm($db);
+    handleLoginForm($db, 'login');
     exit;
 }
 
@@ -87,15 +88,14 @@ if (isset($_GET['op']) && $_GET['op']  == 'showSignUpForm'){
 ?>
 
 <?php 
-	//if (isset($_SESSION['user_id'])): 
-
+//echo("<div class='main-content'>$op</DIV>");
 
 if($op == "searchItems"){
     showFilteredItems($db, $_POST);
 }
 else if($op == "sell"){
     if(!isset($_SESSION['uid'])){
-        handleLoginForm($db);
+        handleLoginForm($db, $op);
         exit;
     }
     else{
@@ -109,7 +109,14 @@ else if($op == "displayItem"){
     displayItem($db, $_GET['IID']);
 }
 else if($op == "addedToCart"){
-
+    if(!isset($_SESSION['uid'])){
+        handleLoginForm($db, 'main');
+        exit;
+    }
+    else{
+        showSellForm($db);
+    }
+    echo("HELLO");
 }
 else{
 ?>
