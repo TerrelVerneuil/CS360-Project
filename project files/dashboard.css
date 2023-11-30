@@ -1,0 +1,150 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4e1d2;
+  padding: 20px;
+  font-size: 1.5vh, 2vh;
+  font-family: 'MuseoModerno';
+}
+
+.sidenav {
+  background-color: #F3C6BE;
+  height: 100%;
+  width: 30vh;
+  position: fixed;
+  text-decoration: none;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  outline: 3px solid #AC4570;
+  padding-top: 20px;
+}
+
+.sidenav #username{
+  color: black;
+  text-decoration: none;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  /* color: black; */
+  display: block;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.sidenav #searchbar{
+  width: 190px; 
+  height: 40px;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 20px;
+  padding-left: 15px; 
+  margin-top: 20px;
+}
+
+.box {
+  width: 85px; 
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  border: 2px solid #fff;  
+  background-color: #fff;
+  border-radius: 20px; 
+  /* outline: 3px solid #AC4570; */
+  box-shadow: 0 0 0 3px #AC4570; 
+}
+.sidenav h2{
+  font-family: 'MuseoModerno';
+  text-align: center;
+  color: #AC4570
+}
+
+.line-divider {
+  align-content: center;
+  height: 2px;
+  background-color: black; 
+  margin-top: 20px;
+}
+
+.boxcontainer{
+
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+.text-under-box {
+margin-top: 5px;  
+text-align: center;  
+}
+
+.main-content {
+margin-left: 32vh;  
+padding: 20px;  
+flex: 1;  
+overflow-y: auto;  
+}
+
+.item-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+display: flex; 
+align-items: center;
+border: 1px solid #ddd;
+padding: 10px;
+margin-bottom: 20px;
+}
+
+.item-box {
+width: 100px;
+height: 100px;
+background: #eee;
+margin-right: 20px;
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4e1d2;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #F3C6BE;
+  padding: 20px;
+  border: 3px solid #AC4570;
+  border-radius: 10px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #AC4570;
+  border-radius: 5px;
+}
+
+.login-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #AC4570;
+  color: #ffffff;
+  cursor: pointer;
+}
+
