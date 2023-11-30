@@ -4,7 +4,7 @@ include_once("db_connect.php");
 //we connect to database here
 //include_once("db_connect.php");
 
-function handleLoginForm($db){
+function handleLoginForm($db, $dest){
 ?>
     <link rel="stylesheet" href="dashboard.css">
     <div class="gradient-background">
@@ -12,6 +12,7 @@ function handleLoginForm($db){
      
     <FORM name='fmLogin' method='POST' action='dashboard.php?op=login' class="login-form">
     <INPUT type="text" name="uid" size='4' placeholder="user ID" class="login-input" />
+    <INPUT type="hidden" name="dest" value=<?php echo($dest);?> />
     <INPUT type="submit" value="Log in" class="login-button"/>
     </FORM>
   <?php
@@ -171,7 +172,15 @@ function listItem($itemInfo, $db, $uid){
   <?php
   }
   else{
-    echo("A problem has occurred");
+    ?>
+    <DIV class='main-content'>
+    <P>A problem has occurred. Please press this button to return to the previous page.</P>
+    <FORM name='returnMain' method='get'>
+    <INPUT type='hidden' name='op' value = 'sell' />
+    <INPUT type='submit' value='Return to sell page' />
+    </FORM>
+    </DIV>
+  <?php
   }
 
 }
@@ -185,20 +194,33 @@ function displayItem($db, $iid){
 
     $res2 = $db->query("SELECT name FROM shop_user WHERE userID =".$item['sid']);
     $seller = $res2->fetch();
-    echo("<DIV class='main-content'><H1>".$item['name']."</H1>");
-    echo("<P>Item Description: ".$item['description']."</P>");
-    echo("<P>Price: $".$item['price']."</P>");
-    echo("<P>Seller Name: ".$seller['name']."</P>");
-
-    echo("<FORM name='addToCart' action='?op=addedToCart&IID=".$iid."'>");
-    echo("<INPUT type='submit' value='Add to cart' />");
-    echo("</FORM>");
-
+    echo("<DIV class='main-content'><H1>".$item['name']."</H1>\n");
+    echo("<P>Item Description: ".$item['description']."</P>\n");
+    echo("<P>Price: $".$item['price']."</P>\n");
+    echo("<P>Seller Name: ".$seller['name']."</P>\n");
+    ?>
+    <FORM name='addToCart' method='get'>
+    <INPUT type='hidden' name='op' value = 'addedToCart' />
+    <INPUT type='hidden' name='IID' value = '<?php echo($iid); ?>' />
+    <INPUT type='submit' value='Add to cart' />
+    </FORM>
+  </DIV>
+  <?php
   }
-
 }
 
+function addToCart($db, $iid){
+  $res = $db->query("SELECT * FROM item WHERE itemID = $iid");
 
+  if($res != FALSE){
+    $item = $res->fetch();
+
+
+
+
+
+  }
+}
 
 
 
