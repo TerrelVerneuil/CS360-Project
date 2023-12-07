@@ -48,6 +48,79 @@ function showTryAgain($db){
   <?php
 }
 
+//-------------------- Ha Duong -----------------------//
+function showReview($db, $item, $sid) {
+  $sql = "SELECT reviews.*, s1.name AS reviewer, item.*
+          FROM reviews 
+          JOIN shop_user AS s1 ON reviews.reviewerID = s1.userID 
+          JOIN item ON item.itemID = reviews.iid
+          WHERE reviews.iid = $item AND reviews.sellerID = $sid";
+
+  $res = $db->query($sql);
+
+  if ($res == FALSE) {
+    header("refresh:1;url=dashboard.php");
+    echo "<div class='main-content'>";
+    echo "<h3>Something went wrong!</h3>\n";
+    echo "</div>";
+
+  }
+  else {
+      echo "<div class='main-content' style='border:solid 1px'>
+            <p style='font-size: 24px; font-weight:600; margin-top: 2px'>Customer Reviews</p>";
+      
+        while ($row = $res->fetch()) {
+          $reviewer = $row['reviewer'];
+          $rating = $row['rating'];
+          $message = $row['message'];
+      echo "
+      <div style='border-top: solid 1px; padding-top: 1rem'>
+          <div style='font-size: 20px'>$reviewer</div>
+          <div style='font-size: 14px'>(Rating: $rating/5)</div>
+          <div style='margin-top: 1rem;'>$message</div>
+      </div>
+      ";
+        }
+      echo "</div>";
+  }
+}
+
+function genReviewForm($db, $uid, $sid, $iid){
+    echo "<FORM name='reviewform' action='?op=send' method='POST' class='main-content'>\n";    
+    echo "<p style='font-size: 24px; font-weight:600; margin-top: 2px; border-bottom: solid 1px; padding-bottom:1rem'>Write your review!</p>";
+    echo "<P><INPUT type='text' name='rating' placeholder='Rating from 1 to 5'/></P> \n";    
+    echo "<P><INPUT type='hidden' name='uid' value='$uid'/></P> \n";    
+    echo "<P><INPUT type='hidden' name='sid' value='$sid'/></P> \n"; 
+    echo "<P><INPUT type='hidden' name='iid' value='$iid'/></P> \n";       
+    echo "<P><TEXTAREA rows='5' cols='70' name='message' placeholder='Rating from 1 to 5'></TEXTAREA><P> \n";
+    echo "<P><INPUT type='submit' value='Review!'/></P>\n";
+    echo "</FORM>\n";
+}
+
+function writeReview($db, $reviews){
+	$rating = $reviews['rating'];
+	$message = $reviews['message'];
+  $reviewerID = $reviews['uid'];
+  $sellerID = $reviews['sid'];
+  $iid = $reviews['iid'];
+
+	$sql = "INSERT INTO reviews(rating, message, reviewerID, sellerID, iid) "
+			. "VALUE($rating, '$message', $reviewerID, $sellerID, $iid)";
+
+	$res = $db->query($sql);
+
+	if ($res !=FALSE) {
+		header("refresh:2;url=?op=displayItem&IID=$iid");
+		printf("<h3>Successfully added review!</h3> \n");
+	}
+	else {
+		header("refresh:2;url=?op=displayItem&IID=$iid");
+		printf("<h3>Failed to send review!</h3> \n");
+	}
+}
+
+//----------------------------------------------------//
+
 function showSellForm($db){
   ?>
   <DIV class="main-content">
@@ -185,8 +258,7 @@ function listItem($itemInfo, $db, $uid){
 
 }
 
-function displayItem($db, $iid){
-
+function displayItem($db, $iid, $uid){
   $res = $db->query("SELECT * FROM item WHERE itemID = $iid");
 
   if($res != FALSE){
@@ -206,6 +278,12 @@ function displayItem($db, $iid){
     </FORM>
   </DIV>
   <?php
+
+  showReview($db, $iid, $item['sid']);
+
+  if ($uid != -1) {
+    genReviewForm($db, $uid, $item['sid'], $iid);
+  }
   }
 }
 
@@ -214,17 +292,6 @@ function addToCart($db, $iid){
 
   if($res != FALSE){
     $item = $res->fetch();
-
-
-
-
-
   }
 }
-
-
-
-
-
-
   ?>

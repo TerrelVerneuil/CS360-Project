@@ -3,22 +3,24 @@
     include("bootstrap.php");
     include("util.php");
     
-?>  
+?>
 
 <!DOCTYPE HTML>
 <HTML lang="en">
-<HEAD>  
+
+<HEAD>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="dashboard.css"> 
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=MuseoModerno' rel='stylesheet'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketplace</title>
 </HEAD>
+
 <BODY>
 
-<?php
+    <?php
 $op = "login";
 
 if (isset($_GET['op'])) {
@@ -37,11 +39,11 @@ if (isset($_GET['op'])) {
         $checkName = $db -> query("SELECT name
                                   FROM shop_user
                                   WHERE name = '$newUser'");
-        if($checkName -> rowCount() == 0){
+        if($checkName->rowCount() == 0){
             $newPassword = $_POST['password'];
             $db->query("INSERT INTO shop_user(name, created_at, password) VALUES ('$newUser', NOW(), '$newPassword')");
-            $getNewUID = $db -> query("SELECT userID FROM shop_user WHERE name = '$newUser'");
-            $newUID = $getNewUID -> fetch()['userID'];
+            $getNewUID = $db->query("SELECT userID FROM shop_user WHERE name = '$newUser'");
+            $newUID = $getNewUID->fetch()['userID'];
             $_SESSION['uid'] = $newUID;
         }
         else{
@@ -51,8 +53,8 @@ if (isset($_GET['op'])) {
     }
 }
 
-$uid = $_SESSION['uid'];
-$uname = getName($db, $uid);
+    $uid = $_SESSION['uid'];
+    $uname = getName($db, $uid);
 
 if (isset($_GET['op']) && $_GET['op']  == 'showLoginForm'){
     handleLoginForm($db, 'login');
@@ -66,8 +68,7 @@ if (isset($_GET['op']) && $_GET['op']  == 'showSignUpForm'){
 
 ?>
 
-<?php
-    
+    <?php
 
 	//show dashboard content
 
@@ -87,9 +88,8 @@ if (isset($_GET['op']) && $_GET['op']  == 'showSignUpForm'){
     //so clicking username should help manage account
 ?>
 
-<?php 
+    <?php 
 //echo("<div class='main-content'>$op</DIV>");
-
 if($op == "searchItems"){
     showFilteredItems($db, $_POST);
 }
@@ -106,7 +106,16 @@ else if($op == "listedItem"){
     listItem($_POST, $db, $uid);
 }
 else if($op == "displayItem"){
-    displayItem($db, $_GET['IID']);
+    $user = -1;
+
+    if (isset($_SESSION['uid'])) {
+        $user = $_SESSION['uid'];
+    }
+
+    displayItem($db, $_GET['IID'], $user);
+}
+else if ($op == "send") {
+    writeReview($db, $_POST);
 }
 else if($op == "addedToCart"){
     if(!isset($_SESSION['uid'])){
@@ -122,37 +131,37 @@ else{
 ?>
 
     <div class="main-content">
-    <h1>Picked for you</h1>
-    
-    <div class="item">
-        <div class="item-box">Null</div>
-        <p>Item Description</p>
-        <p>Item Price</p>
+        <h1>Picked for you</h1>
+            <div class="item">
+                <div class="item-box">Null</div>
+                <p>Item Description</p>
+                <p>Item Price</p>
+            </div>
+            <div class="item">
+                <div class="item-box">Null</div>
+                <p>Item Description</p>
+                <p>Item Price</p>
+            </div>
+            <div class="item">
+                <div class="item-box">Null</div>
+                <p>Item Description</p>
+                <p>Item Price</p>
+            </div>
+            <div class="item">
+                <div class="item-box">Null</div>
+                <p>Item Descr   iption</p>
+                <p>Item Price</p>
+            </div>
+
     </div>
-    <div class="item">
-        <div class="item-box">Null</div>
-        <p>Item Description</p>
-        <p>Item Price</p>
-    </div>
-    <div class="item">
-        <div class="item-box">Null</div>
-        <p>Item Description</p>
-        <p>Item Price</p>
-    </div>
-    <div class="item">
-        <div class="item-box">Null</div>
-        <p>Item Description</p>
-        <p>Item Price</p>
-    </div>
-    
-</div>
+
 <?php    
 }
 ?>
-<DIV class="sidenav">
-<H2>MARKETPLACE</H2>
+    <DIV class="sidenav">
+        <H2>MARKETPLACE</H2>
 
-<?php
+        <?php
 	//this section icon should be pressed and prompt the user to a login page
 		//following that it should log the user in when user name and pass word is specified. 
 		//more functionality added later.
@@ -162,37 +171,35 @@ if (isset($_SESSION['uid'])) {
     showLogoutForm();
 }
 else {
-    ?>
-    <A id="username" href="?op=showLoginForm">👤 login</A>
-    <A id="username" href="?op=showSignUpForm" style = 'color: blue; font-size: 10px'>Don't have an account? Click here to sign up!</A>
-<?php
+?>
+        <A id="username" href="?op=showLoginForm">👤 login</A>
+        <A id="username" href="?op=showSignUpForm" style='color: blue; font-size: 10px'>Don't have an account? Click
+            here to sign up!</A>
+        <?php
 }
 ?>
 
-	
-<DIV class="boxcontainer">
-    <DIV class="box"><A href="?op=cart">CART</A></DIV>
-            
-    <DIV class="box"><A href="?op=sell">SELL</A></DIV>
-    <DIV class="text-under-box"></DIV>
-</DIV>
 
-<DIV class="boxcontainer">
-    <DIV class="box"></DIV>
-    <DIV class="text-under-box"></DIV>
-    <DIV class="box"></DIV>
-    <DIV class="text-under-box"></DIV>
-</DIV>
-            
-        
-    <!-- search bar implement -->
-    <!-- add an inline bar over here -->
-<DIV class="line-divider"></DIV>
-<FORM name='filterResults' method='POST' action='?op=searchItems'>
-<INPUT id="searchbar" name = "searchbar" type="text" placeholder="Search...">    <!--will clean this up a bit later -->
-<A href=<?php if($op != 'filter'){echo("?op=filter");} else{echo("dashboard.php");} ?>>filter</A>
-    
-<?php
+        <DIV class="boxcontainer">
+            <DIV class="box"><A href="?op=cart">CART</A></DIV>
+            <DIV class="box"><A href="?op=sell">SELL</A></DIV>
+        </DIV>
+
+        <DIV class="boxcontainer">
+            <DIV class="box"></DIV>
+            <DIV class="box"></DIV>
+        </DIV>
+
+
+        <!-- search bar implement -->
+        <!-- add an inline bar over here -->
+        <DIV class="line-divider"></DIV>
+        <FORM name='filterResults' method='POST' action='?op=searchItems'>
+            <INPUT id="searchbar" name="searchbar" type="text" placeholder="Search...">
+            <!--will clean this up a bit later -->
+            <A href=<?php if($op != 'filter'){echo("?op=filter");} else{echo("dashboard.php");} ?>>filter</A>
+
+            <?php
 
 if($op == 'filter'){
     echo("<TD>\n");
@@ -205,20 +212,17 @@ if($op == 'filter'){
 
 ?>
 
-<INPUT type='submit' value='Search' />
-</FORM>
+            <INPUT type='submit' value='Search' />
+        </FORM>
 
-</DIV> <!-- closes side bar-->
+    </DIV> <!-- closes side bar-->
 
+    <!-- implement filter icon -->
 
+    <!-- implement logout icon -->
 
-        
-        
-<!-- implement filter icon -->
-        
-<!-- implement logout icon -->
+    </DIV>
 
-</DIV> 
-    
 </BODY>
+
 </HTML>
