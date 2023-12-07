@@ -42,6 +42,7 @@ function showAccountManagementForm($db, $uid){
     
 
 ?>
+<?php
 function handleLoginForm($db, $dest){
 ?>
     <link rel="stylesheet" href="dashboard.css">
@@ -470,3 +471,4 @@ function saveImage($fileData) {
 
 
   ?>
+
