@@ -86,6 +86,20 @@ if (isset($_GET['op']) && $_GET['op']  == 'showSignUpForm'){
     handleSignUpForm($db);
     exit;
 }
+if (isset($_GET['op']) && $_GET['op'] == 'Account_Manage'){
+	$newPassword=$_POST['newPassword'] ?? null;
+	$confirmPassword = $_POST['confirmNewPassword']??null;
+	$currentPassword= $_POST['currentPassword']??null;	
+   $result = validateNewPassword($db,$uid,$currentPassword,$newPassword, $confirmPassword);     
+	
+	if($result == true){
+	   //update the database password based on the uid
+	   $db->query("UPDATE shop_user 
+		   SET password=$newPassword
+		WHERE userID='$uid'");
+   }
+   exit;
+}
 
 ?>
 
@@ -193,8 +207,11 @@ else{
 		//more functionality added later.
 
 if (isset($_SESSION['uid'])) {
-    echo("👤 " . htmlspecialchars($uname));
-    showLogoutForm();
+
+?>
+	<a href="?op=showAccountManagement"><?php echo ("👤 " . htmlspecialchars($uname)) ?></a>
+<?php
+showLogoutForm();
 }
 else {
     ?>
