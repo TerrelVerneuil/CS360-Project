@@ -5,6 +5,7 @@ include_once("db_connect.php");
 //include_once("db_connect.php");
 
 //terrel
+//terrel
 function showAccountManagementForm($db, $uid){
   ?>
       <link rel="stylesheet" href="dashboard.css">
@@ -42,7 +43,7 @@ function showAccountManagementForm($db, $uid){
 	      </form>
 		<form name='update_display' method='POST' action='dashboard.php?op=update_display' >
 		<h3>Change Display Name </h3>
-		 <input type="text" class="form-input" value="update_name" placeholder="Display Name"/> 
+		 <input type="text" name="update_name" class="form-input"  placeholder="Display Name"/> 
 			 
 
 	<input type="submit" class ="login-button"  value="Update Name"/>
