@@ -147,6 +147,7 @@ body {
 }
 /* Account Management Form Styles */
 .account-container {
+
     background-color: #F3C6BE;
     padding: 20px;
     border: 3px solid #AC4570;
@@ -246,4 +247,13 @@ h2 {
 
     .tab button.active {
         background-color: #ccc;
+    }
+    .warning-style{
+
+    display: none;
+    
+
+    animation: fadeIn 2s;
+
+
     }
