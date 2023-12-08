@@ -4,6 +4,44 @@ include_once("db_connect.php");
 //we connect to database here
 //include_once("db_connect.php");
 
+//terrel
+function showAccountManagementForm($db, $uid){
+  ?>
+      <link rel="stylesheet" href="dashboard.css">
+      <div class="main-content">
+    <!-- there should be a button that goes back to the dashboard.php -->
+    <div class="back-button-container">
+              <a href="dashboard.php" class="back-button">Back to Dashboard</a>
+          </div>       
+    <div class="account-container">
+              <h2>Welcome <?php echo getName($db, $uid) ?>!</h2>
+              <form name='actManage' method='POST' action='dashboard.php?op=Account_Manage' class="login-form">
+                  <h2>Account Management</h2>
+      <!-- should have orders tab, wishlist addresses -->
+      
+    <!-- Personal Information Section -->
+                  <div class="manage-section">
+                      <h3>Personal Information</h3>
+      <!-- display uid and name -->
+      <p>Name: <?php echo getName($db, $uid) ?></p>
+      <p>User ID: <?php echo $uid ?></p>
+                  <!-- Change Password Section -->
+                  <div class="manage-section">
+                      <h3>Change Password</h3>
+                      <input type="password" name="currentPassword" placeholder="Current Password" class="form-input"/>
+                      <input type="password" name="newPassword" placeholder="New Password" class="form-input"/>
+                      <input type="password" name="confirmNewPassword" placeholder="Confirm New Password" class="form-input"/>
+                  </div>
+  
+                  <input type="submit" value="Update Account" class="button"/>
+              </form>
+          </div>
+      </div>
+  
+      <?php
+}
+
+//terrel
 function handleLoginForm($db, $dest){
 ?>
     <link rel="stylesheet" href="dashboard.css">
@@ -11,44 +49,52 @@ function handleLoginForm($db, $dest){
     <div class="login-container">
      
     <FORM name='fmLogin' method='POST' action='dashboard.php?op=login' class="login-form">
-    <INPUT type="text" name="uid" size='4' placeholder="user ID" class="login-input" />
+    <INPUT type="text" name="username" size='4' placeholder="Username" class="login-input" />
+    <INPUT type="text" name="password" size='4' placeholder="Password" class="login-input" />
     <INPUT type="hidden" name="dest" value=<?php echo($dest);?> />
-    <INPUT type="submit" value="Log in" class="login-button"/>
+    <INPUT type="submit" value="Log in" class="button"/>
     </FORM>
   <?php
 }
 
+//john
 function handleSignUpForm($db){
     ?>
-        <P>Please enter a username. Your unique user ID will be assigned to you upon account creation.</P>
+        <P style='text-align:center; margin-top: 10rem; margin-bottom: 0rem; font-size: 26px'>Please enter a username</P>
+        <P style='text-align:center; margin-top: 0rem; margin-bottom: 2rem; font-size: 16px'>Your unique user ID will be assigned to you upon account creation</P>
         <link rel="stylesheet" href="dashboard.css">
         <div class="gradient-background">
         <div class="login-container">
          
         <FORM name='fmLogin' method='POST' action='dashboard.php?op=signedUp' class="login-form">
+        <INPUT type="text" name="display_name" size='4' placeholder="Display name" class="login-input" />
         <INPUT type="text" name="username" size='4' placeholder="Username" class="login-input" />
         <INPUT type="text" name="password" size='4' placeholder="Password" class="login-input" />
-        <INPUT type="submit" value="Sign Up" class="login-button"/>
+        <INPUT type="submit" value="Sign Up" class="button"/>
         </FORM>
       <?php
     }
 
-function showTryAgain($db){
+//john
+function showTryAgain($db, $error){
+  
+    echo("<P>$error</P>");
   ?>
-    <P>That username already exists. Please try again.</P>
     <link rel="stylesheet" href="dashboard.css">
     <div class="gradient-background">
     <div class="login-container">
            
     <FORM name='fmLogin' method='POST' action='dashboard.php?op=signedUp' class="login-form">
+    <INPUT type="text" name="display_name" size='4' placeholder="Display name" class="login-input" />
     <INPUT type="text" name="username" size='4' placeholder="Username" class="login-input" />
     <INPUT type="text" name="password" size='4' placeholder="Password" class="login-input" />
-    <INPUT type="submit" value="Sign Up" class="login-button"/>
+    <INPUT type="submit" value="Sign Up" class="button"/>
     </FORM>
   <?php
 }
 
-//-------------------- Ha Duong -----------------------//
+
+//Ha Duong
 function showReview($db, $item, $sid) {
   $sql = "SELECT reviews.*, s1.name AS reviewer, item.*
           FROM reviews 
@@ -66,15 +112,17 @@ function showReview($db, $item, $sid) {
 
   }
   else {
-      echo "<div class='main-content' style='border:solid 1px'>
+      echo "<div class='main-content' style='border:solid 1px #4F1F33'>
             <p style='font-size: 24px; font-weight:600; margin-top: 2px'>Customer Reviews</p>";
       
         while ($row = $res->fetch()) {
           $reviewer = $row['reviewer'];
           $rating = $row['rating'];
           $message = $row['message'];
+        
+      // Display reviews
       echo "
-      <div style='border-top: solid 1px; padding-top: 1rem'>
+      <div style='border-top: solid 1px #4F1F33; padding-top: 1rem'>
           <div style='font-size: 20px'>$reviewer</div>
           <div style='font-size: 14px'>(Rating: $rating/5)</div>
           <div style='margin-top: 1rem;'>$message</div>
@@ -85,6 +133,8 @@ function showReview($db, $item, $sid) {
   }
 }
 
+//Ha Duong
+//Create form for users to leave review (users can only leave review when they are logged in)
 function genReviewForm($db, $uid, $sid, $iid){
     echo "<FORM name='reviewform' action='?op=send' method='POST' class='main-content'>\n";    
     echo "<p style='font-size: 24px; font-weight:600; margin-top: 2px; border-bottom: solid 1px; padding-bottom:1rem'>Write your review!</p>";
@@ -93,10 +143,12 @@ function genReviewForm($db, $uid, $sid, $iid){
     echo "<P><INPUT type='hidden' name='sid' value='$sid'/></P> \n"; 
     echo "<P><INPUT type='hidden' name='iid' value='$iid'/></P> \n";       
     echo "<P><TEXTAREA rows='5' cols='70' name='message' placeholder='Rating from 1 to 5'></TEXTAREA><P> \n";
-    echo "<P><INPUT type='submit' value='Review!'/></P>\n";
+    echo "<P><INPUT type='submit' value='Review!' class='button'/></P>\n";
     echo "</FORM>\n";
 }
 
+//Ha Duong
+//Add new reviews into database
 function writeReview($db, $reviews){
 	$rating = $reviews['rating'];
 	$message = $reviews['message'];
@@ -119,8 +171,13 @@ function writeReview($db, $reviews){
 	}
 }
 
-//----------------------------------------------------//
+//john
+function loginAgain($db, $error, $dest){
+  echo("<P>$error</P>");
+  handleLoginForm($db, $dest);
+}
 
+//john
 function showSellForm($db){
   ?>
   <DIV class="main-content">
@@ -139,6 +196,10 @@ function showSellForm($db){
     <INPUT type='text' name='desc'      placeholder='Item Description' />
     </P>
     <P>
+    Image for Item: 
+    <INPUT type='file' name='myFile1' />
+    </P>
+    <P>
     Select a Category for your Item:  
     <SELECT name="category">
       <OPTION value="Electronics">Electronics</OPTION>
@@ -148,7 +209,7 @@ function showSellForm($db){
     </SELECT>
     </P>
     <P>
-    <INPUT type='submit' value='List Item'/>
+    <INPUT class='button' type='submit' value='List Item'/>
     </P>
     </FORM>
   </DIV>
@@ -156,7 +217,7 @@ function showSellForm($db){
 }
 
 function getName($db, $uid){
-	$sql = "SELECT name 
+	$sql = "SELECT display_name 
 		    FROM   shop_user
 		    WHERE  userID = $uid";
 
@@ -164,7 +225,7 @@ function getName($db, $uid){
 
 	if ($res != FALSE && $res->rowCount() == 1) {
         $nameRow = $res->fetch();
-        return $nameRow['name'];
+        return $nameRow['display_name'];
     }
   	else {
         return "Unknown";
@@ -174,7 +235,7 @@ function getName($db, $uid){
 function showLogoutForm() {
     ?>
         <FORM name='fmLogout' method='POST' action='dashboard.php?op=logout'>
-        <INPUT type='submit' value='Logout' />
+        <span><INPUT type='submit' value='Logout' class='button' style='margin-left: 2rem; margin-bottom: 2rem'/></span>
         </FORM>
     <?php
     }
@@ -225,12 +286,14 @@ function showFilteredItems($db, $filters){
 
 }
 
+//adds item the user wants to sell to the database
 function listItem($itemInfo, $db, $uid){
 
   $name = $itemInfo['name'];
   $price = $itemInfo['price'];
   $desc = $itemInfo['desc'];
   $category = $itemInfo['category'];
+  $image = $itemInfo['file'];
 
   $res = $db->query("INSERT INTO item(sid, name, price, description, itemCat) VALUES ($uid, '$name', $price, '$desc', '$category')");
   
@@ -274,7 +337,7 @@ function displayItem($db, $iid, $uid){
     <FORM name='addToCart' method='get'>
     <INPUT type='hidden' name='op' value = 'addedToCart' />
     <INPUT type='hidden' name='IID' value = '<?php echo($iid); ?>' />
-    <INPUT type='submit' value='Add to cart' />
+    <INPUT type='submit' value='Add to cart' class='button'/>
     </FORM>
   </DIV>
   <?php
@@ -287,11 +350,185 @@ function displayItem($db, $iid, $uid){
   }
 }
 
-function addToCart($db, $iid){
+function addToCart($db, $iid, $uid){
   $res = $db->query("SELECT * FROM item WHERE itemID = $iid");
 
   if($res != FALSE){
     $item = $res->fetch();
+    $res2 = $db->query("SELECT sid FROM item WHERE itemID = $iid");
+    $sellerID = $item['sid'];
+    if($sellerID == $uid){
+      cannotAddToCart("You cannot buy your own item.");
+    }
+    else{
+      $res3 = $db->query("INSERT INTO has_in_cart(itemID, userID) VALUES ($iid, $uid)");
+      if($res3 != FALSE){
+        ?>
+        <DIV class='main-content'>
+        <P>Added to cart!</P>
+        <FORM name='returnMain'>
+        <INPUT type='submit' value='Return to Main Page' />
+        </FORM>
+        </DIV>
+      <?php
+      }
+    }
   }
 }
+
+function showCart($db, $uid){
+  $res = $db->query("SELECT * FROM has_in_cart NATURAL JOIN item WHERE userID = $uid");
+
+  if($res != FALSE){
+    while($item = $res->fetch()){
+
+      $res2 = $db->query("SELECT name FROM shop_user WHERE userID =".$item['sid']);
+      $iid = $item['itemID'];
+      $seller = $res2->fetch();
+
+      echo("<DIV class='main-content'><H1>".$item['name']."</H1>\n");
+      echo("<P>Item Description: ".$item['description']."</P>\n");
+      echo("<P>Price: $".$item['price']."</P>\n");
+      echo("<P>Seller Name: ".$seller['name']."</P>\n");  
+      echo("<FORM name='removeFromCart' action='?op=cart' method='POST'>");
+      echo("<INPUT type='hidden' name='iid' value = '$iid' />");
+      echo("<INPUT type='submit' value='Remove from Cart' />");
+      echo("</FORM>");
+      echo("</DIV>");
+    }
+    $res3 = $db -> query("SELECT SUM(price) AS total FROM has_in_cart NATURAL JOIN item WHERE userID = $uid");
+    if($res3 != FALSE){
+      $price = $res3->fetch();
+      echo("<DIV class='main-content'>");
+      echo("Cart total: $".$price['total']);
+      echo("</DIV>");
+    }
+    ?>
+    <DIV class='main-content'>
+    <FORM name='addToCart' method='get'>
+    <INPUT type='hidden' name='op' value = 'checkedOut' />
+    <INPUT type='submit' value='Check Out' class='button' />
+    </FORM>
+  </DIV>
+  <?php
+  }
+
+
+
+
+}
+
+function cannotAddToCart($error){
+  echo("<DIV class='main-content'>\n");
+  echo("<P>$error</P>");
+  ?>
+  <FORM name='returnMain' action='?'>
+  <INPUT type='submit' value='Return to Main Page' />
+  </FORM>
+</DIV>
+<?php
+
+}
+
+// assume that user's uploaded files will be saved in
+// uploaded/ (in current folder where the scripts are)
+// this folder must be created and has a+rwx permission already
+
+// call the function, saveImage, for actual uploading.
+
+function saveImage($fileData) {
+
+    $MAX_SIZE = 5242880; // maximum file size in bytes, 5MBytes
+
+    // 0. for debugging
+    printf("<PRE>\n");
+    print_r($fileData);
+    printf("</PRE>\n");
+
+    $msg = "";
+
+    // 1. important variables from $fileData
+    $userfn = $fileData['name'];
+    $size   = $fileData['size'];
+    $tmpfn  = $fileData['tmp_name'];
+    $type   = $fileData['type'];
+
+    printf("<P>Step 1 done</P>");
+
+
+    // 2. check file size for (0, 5MB]
+
+    if ($size == 0) {
+        $msg = "File is empty";
+        return $msg;
+    }
+    else if ($size > $MAX_SIZE) {
+        $msg = "File is too large, max of 5MB limit";
+        return $msg;
+    }
+
+    printf("<P>Step 2 done</P>");
+
+    // 3. get uploaded file data info from temp folder
+    $imgInfo = getimagesize($tmpfn);
+
+    printf("<P>Step 3 done</P>");
+
+    // 4. check mime type (is it an image?)
+    if ($imgInfo == FALSE) {
+        $msg = "File is not an image";
+        return $msg;
+    }
+
+    printf("<P>Step 4 done</P>");
+
+
+    // 5. check for allowed types (jpg/gif/png) 
+    $mimetype = $imgInfo['mime'];
+
+    if ($mimetype != "image/jpeg" &&
+        $mimetype != "image/jpg" &&
+        $mimetype != "image/gif" &&
+        $mimetype != "image/png") {
+        $msg = "File not allowed; only jpeg/gif/png type images are allowed.";
+        return $msg;
+    }
+
+    printf("<P>Step 5 done</P>\n");
+
+    // 6. copy the uploaded file from the temp folder to the correct folder
+    $folder = "./uploaded/";
+    $fn = $folder . $userfn;
+
+    // 6*. if you want to change the filename, you can split $userfn by . 
+    //     to replace the name before . and keep the extension (after .)
+
+    print "<P>Saving uploaded file as " . $fn . "</P>\n";
+
+    //     
+    $result = move_uploaded_file($tmpfn, $fn);
+
+    printf("<P>Step 6 done</P>");
+
+    // 7. check if copying was successful
+    if ($result != FALSE) {
+        $msg = "<P>Successfully uploaded $userfn</P>\n";
+
+        // change owner info on the uploaded file 
+        $cmd = "chmod a+rw '$fn'";
+        echo "<P>$cmd<\P>\n";
+
+        system($cmd);        // execute Linux command
+
+        $msg .= "<P>Your uploaded image:<BR /><BR /> <IMG src='" . $fn . "' /></P>\n";
+    }
+    else {
+        $msg = "<P>Error uploading $userfn</P>\n";
+    }
+
+    // 8. return success or failure message
+    return $msg;
+}
+
+
   ?>
