@@ -216,6 +216,16 @@ else if($op == "cart"){
         showCart($db, $uid);
     }
 }
+	if(isset($_GET['op']) && $_GET['op'] == 'update_display'){
+	$displayName = $_POST['update_name']??null;
+
+	$db->query( "UPDATE shop_user
+			SET display_name ='$displayName'
+                        WHERE userID=$uid");
+	showAccountManagementForm($db,$uid);	
+	exit;
+	}
+?>
 else{
     echo("<DIV class ='main-content'>\n");
     echo("<H1>Picked for you</H1>");
