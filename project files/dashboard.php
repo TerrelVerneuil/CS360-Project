@@ -148,16 +148,7 @@ else if($op == "listedItem"){
     listItem($_POST, $db, $uid);
 }
 else if($op == "displayItem"){
-    $user = -1;
-
-    if (isset($_SESSION['uid'])) {
-        $user = $_SESSION['uid'];
-    }
-
-    displayItem($db, $_GET['IID'], $user);
-}
-else if ($op == "send") {
-    writeReview($db, $_POST);
+    displayItem($db, $_GET['IID']);
 }
 else if($op == "addedToCart"){
     if(!isset($_SESSION['uid'])){

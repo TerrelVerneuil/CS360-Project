@@ -177,7 +177,6 @@ function loginAgain($db, $error, $dest){
   handleLoginForm($db, $dest);
 }
 
-//john
 function showSellForm($db){
   ?>
   <DIV class="main-content">
@@ -321,18 +320,19 @@ function listItem($itemInfo, $db, $uid){
 
 }
 
-function displayItem($db, $iid, $uid){
+function displayItem($db, $iid){
+
   $res = $db->query("SELECT * FROM item WHERE itemID = $iid");
 
   if($res != FALSE){
     $item = $res->fetch();
 
-    $res2 = $db->query("SELECT name FROM shop_user WHERE userID =".$item['sid']);
+    $res2 = $db->query("SELECT display_name FROM shop_user WHERE userID =".$item['sid']);
     $seller = $res2->fetch();
     echo("<DIV class='main-content'><H1>".$item['name']."</H1>\n");
     echo("<P>Item Description: ".$item['description']."</P>\n");
     echo("<P>Price: $".$item['price']."</P>\n");
-    echo("<P>Seller Name: ".$seller['name']."</P>\n");
+    echo("<P>Seller Name: ".$seller['display_name']."</P>\n");
     ?>
     <FORM name='addToCart' method='get'>
     <INPUT type='hidden' name='op' value = 'addedToCart' />
@@ -341,12 +341,6 @@ function displayItem($db, $iid, $uid){
     </FORM>
   </DIV>
   <?php
-
-  showReview($db, $iid, $item['sid']);
-
-  if ($uid != -1) {
-    genReviewForm($db, $uid, $item['sid'], $iid);
-  }
   }
 }
 
@@ -529,6 +523,4 @@ function saveImage($fileData) {
     // 8. return success or failure message
     return $msg;
 }
-
-
   ?>

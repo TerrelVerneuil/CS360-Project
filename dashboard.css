@@ -5,6 +5,7 @@ body {
     font-size: 1.5vh, 2vh;
     font-family: 'MuseoModerno';
 }
+
 .sidenav {
     background-color: #F3C6BE;
     height: 100%;
@@ -18,9 +19,12 @@ body {
     outline: 3px solid #AC4570;
     padding-top: 20px;
   }
+
   .sidenav #username{
     color: black;
+    text-decoration: none;
   }
+
   .sidenav a {
     padding: 6px 8px 6px 16px;
     text-decoration: none;
@@ -32,17 +36,17 @@ body {
     font-weight: 500;
     line-height: normal;
   }
+
   .sidenav #searchbar{
     width: 190px; 
     height: 40px;
-    border: 2px solid black; 
+    border: 2px solid black;
     background-color: white;
     border-radius: 20px;
     padding-left: 15px; 
     margin-top: 20px;
-    
-    
   }
+
   .box {
     width: 85px; 
     height: 80px;
@@ -50,29 +54,33 @@ body {
     align-items: center;
     justify-content: center;
     margin: 10px;
-    border: 2px solid #fff; 
-    border-radius: 15px; 
-    background-color: #fff; 
+    border: 2px solid #fff;  
+    background-color: #fff;
+    border-radius: 20px;
+    text-decoration: none; 
     /* outline: 3px solid #AC4570; */
     box-shadow: 0 0 0 3px #AC4570; 
   }
   .sidenav h2{
     font-family: 'MuseoModerno';
     text-align: center;
-    color: #AC4570;
+    color: #AC4570
   }
+
   .line-divider {
     align-content: center;
-    
     height: 2px;
     background-color: black; 
     margin-top: 20px;
 }
+
 .boxcontainer{
+  text-decoration: none; 
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
 }
+
 .text-under-box {
   margin-top: 5px;  
   text-align: center;  
@@ -84,6 +92,8 @@ body {
   flex: 1;  
   overflow-y: auto;  
 }
+
+
 
 .item {
   display: flex; 
@@ -99,3 +109,151 @@ body {
   background: #eee;
   margin-right: 20px;
 }
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4e1d2;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F3C6BE;
+    padding: 20px;
+    border: 3px solid #AC4570;
+    border-radius: 10px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #AC4570;
+    border-radius: 5px;
+}
+
+.login-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #AC4570;
+    color: #ffffff;
+    cursor: pointer;
+}
+/* Account Management Form Styles */
+.account-container {
+
+    background-color: #F3C6BE;
+    padding: 20px;
+    border: 3px solid #AC4570;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+}
+
+.manage-section {
+    margin-bottom: 20px;
+}
+
+.manage-section h3 {
+    color: #AC4570;
+    margin-bottom: 10px;
+}
+
+.form-input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #AC4570;
+    border-radius: 5px;
+}
+
+.form-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #AC4570;
+    color: #ffffff;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Add some spacing and styling to titles */
+h2 {
+    color: #AC4570;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.account-container > h2 {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+}
+.back-button-container {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+.back-button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+}
+
+.back-button:hover {
+        background-color: #45a049;
+   }
+
+    .tabcontent {
+        display: none;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    /* Style the tab links */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+    .tab button.active {
+        background-color: #ccc;
+    }
+    .warning-style{
+
+    display: none;
+    
+
+    animation: fadeIn 2s;
+
+
+    }
