@@ -106,16 +106,16 @@ if (isset($_GET['op']) && $_GET['op'] == 'Account_Manage'){
    exit;
 }
 if(isset($_GET['op']) && $_GET['op'] = 'update_display'){
-	$displayName = $_POST['Update_Name']??null;
+	$displayName = $_POST['update_name']??null;
 	
 		
 	$cond = updateDisplayName($db,$uid,$displayName);
-	echo $cond;
+	
 	if($cond == false){
 	echo "test";       
 	$db->query( "UPDATE shop_user
-                        SET display_name = $displayname
-                        WHERE userID='$uid'");
+                        SET display_name ='$displayname'
+                        WHERE userID=$uid");
 	}
 	}
 ?>
