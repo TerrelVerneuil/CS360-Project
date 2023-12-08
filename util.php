@@ -42,7 +42,7 @@ function showAccountManagementForm($db, $uid){
 	      </form>
 		<form name='update_display' method='POST' action='dashboard.php?op=update_display' >
 		<h3>Change Display Name </h3>
-		 <input type="text" class="form-input" name="Update_Name" placeholder="Display Name"/> 
+		 <input type="text" class="form-input" value="update_name" placeholder="Display Name"/> 
 			 
 
 	<input type="submit" class ="login-button"  value="Update Name"/>
@@ -55,7 +55,7 @@ function showAccountManagementForm($db, $uid){
 function updateDisplayName($db, $uid, $displayname){
 	$sql = "SELECT display_name 
 		FROM shop_user
-		WHERE display_name=$displayname";
+		WHERE display_name='$displayname'";
 	$res = $db->query($sql);
 	
 	if($res != FALSE &&$res-> rowCount() ==1){
@@ -448,9 +448,16 @@ function showWishlist($db, $uid){
       echo("<P>Item Description: ".$item['description']."</P>\n");
       echo("<P>Price: $".$item['price']."</P>\n");
       echo("<P>Seller Name: ".$seller['name']."</P>\n");
-      echo("<FORM name='removeFromWishlist' action='?op=wishlist_remove' method='POST'>");
+      echo("<FORM name='removeFromWishlist' action='?op=wishlist_show' method='POST'>");
       echo("<INPUT type='hidden' name='iid' value = '$iid' />");
       echo("<INPUT type='submit' value='Remove from Wishlist' />");
+      echo("</FORM>");
+      echo("</DIV>");
+      echo("<DIV class='main-content'>");
+      echo("<FORM name='addNewItem' method='get'>");
+      echo("<INPUT type='hidden' name='op' value = 'addedToCart' />");
+      echo("<INPUT type='hidden' name='IID' value='$iid'/>");
+      echo("<INPUT type='submit' value='Add to cart' />");
       echo("</FORM>");
       echo("</DIV>");
     }
@@ -462,12 +469,7 @@ function showWishlist($db, $uid){
       echo("</DIV>");
     }
     ?>
-    <DIV class='main-content'>
-    <FORM name='addToCart' method='get'>
-    <INPUT type='hidden' name='op' value = 'addedToCart' />
-    <INPUT type='submit' value='Add to cart' />
-    </FORM>
-  </DIV>
+    
   <?php
   }
 
